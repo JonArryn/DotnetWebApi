@@ -1,0 +1,41 @@
+﻿services:
+  webapiproject:
+    image: webapiproject
+    build:
+      context: .
+      dockerfile: WebApiProject/Dockerfile
+    depends_on:
+      - postgres
+    networks:
+      - webapinet
+    ports:
+      - "8000:8080"    # Map container port 80 to host port 8000
+      - "8001:443"   # Map container port 443 to host port 8001 (for HTTPS)
+      
+  postgres:
+    image: postgres:17
+    environment:
+      POSTGRES_DB: webapiproject
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - 5432:5432
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    restart: always
+    networks:
+      - webapinet
+  adminer:
+    image: adminer:5
+    restart: always
+    ports:
+      - 8080:8080
+    networks:
+      - webapinet
+
+volumes:
+  db_data:
+
+networks:
+  webapinet:
+    driver: bridge
