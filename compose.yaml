@@ -9,8 +9,8 @@
     networks:
       - webapinet
     ports:
-      - "8000:8080"    # Map container port 80 to host port 8000
-      - "8001:443"   # Map container port 443 to host port 8001 (for HTTPS)
+      - "8000:8080"
+      - "8001:443"
       
   postgres:
     image: postgres:17

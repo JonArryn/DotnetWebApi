@@ -33,6 +33,11 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
+            app.UseExceptionHandler("/error-development");
+        }
+        if (!app.Environment.IsDevelopment())
+        {
+            app.UseExceptionHandler("/error");
         }
 
         app.UseHttpsRedirection();
