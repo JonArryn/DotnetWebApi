@@ -1,7 +1,14 @@
+using System.Text;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Scalar.AspNetCore;
+using WebApiProject.Contracts.Repositories;
+using WebApiProject.Contracts.Services;
 using WebApiProject.Database;
-using WebApiProject.Repositories.User;
-using WebApiProject.Services.UserService;
+using WebApiProject.Mappings;
+using WebApiProject.Repositories;
+using WebApiProject.Services;
 
 namespace WebApiProject;
 
@@ -24,8 +31,28 @@ public class Program
         builder.Services.AddDbContext<Db>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    ValidateIssuer = true,
+                    ValidIssuer = builder.Configuration["AppSettings:Issuer"],
+                    ValidateAudience = true,
+                    ValidAudience = builder.Configuration["AppSettings:Audience"],
+                    ValidateLifetime = true,
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]!)),
+                    ValidateIssuerSigningKey = true
+                };
+            });
+        
+        // Mapper
+        builder.Services.AddAutoMapper(typeof(Program).Assembly);
+        // services, repos, dependencies
         builder.Services.AddScoped<IUserRepository, UserRepository>();
-        builder.Services.AddScoped<IUserService, UserService>();
+        builder.Services.AddScoped<IAuthRepository, AuthRepository>();
+        builder.Services.AddScoped<IAuthService, AuthService>();
+        builder.Services.AddScoped<IJwtService, JwtService>();
         
         var app = builder.Build();
 
@@ -33,6 +60,7 @@ public class Program
         if (app.Environment.IsDevelopment())
         {
             app.MapOpenApi();
+            app.MapScalarApiReference();
             app.UseExceptionHandler("/error-development");
         }
         if (!app.Environment.IsDevelopment())

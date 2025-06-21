@@ -1,17 +1,12 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApiProject.Models;
+namespace WebApiProject.Models.Requests;
 
-public class User
+public class UserRequest
 {
-    public int Id { get; set; }
 
     [Required] [EmailAddress] public string Email { get; set; } = string.Empty;
-    
-    [Required]
+    [Required] public string Password { get; set; } = string.Empty;
     public string FirstName { get; set; } = string.Empty;
-    
-    [Required]
     public string LastName { get; set; } = string.Empty;
-
 }

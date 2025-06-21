@@ -1,0 +1,18 @@
+meta {
+  name: Refresh Token
+  type: http
+  seq: 5
+}
+
+post {
+  url: http://localhost:8000/api/auth/refreshToken
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "userId": 5,
+    "refreshToken": "ZNyWrtujTKaCh49rPu8CwH+WHnzaUVaobKis+X5Em/g="
+  }
+}

@@ -1,0 +1,15 @@
+meta {
+  name: Test Authorization
+  type: http
+  seq: 4
+}
+
+get {
+  url: http://localhost:8000/api/auth/testAuthZ
+  body: none
+  auth: none
+}
+
+headers {
+  Authorization: Bearer eyJhbGciOiJIUzUxMiIsInR5cCI6IkpXVCJ9.eyJodHRwOi8vc2NoZW1hcy54bWxzb2FwLm9yZy93cy8yMDA1LzA1L2lkZW50aXR5L2NsYWltcy9uYW1lIjoiaGVsbG80QGFycnluLm5ldCIsImh0dHA6Ly9zY2hlbWFzLnhtbHNvYXAub3JnL3dzLzIwMDUvMDUvaWRlbnRpdHkvY2xhaW1zL25hbWVpZGVudGlmaWVyIjoiNSIsImh0dHA6Ly9zY2hlbWFzLm1pY3Jvc29mdC5jb20vd3MvMjAwOC8wNi9pZGVudGl0eS9jbGFpbXMvcm9sZSI6IkFkbWluIiwiZXhwIjoxNzUwNDM4MDUzLCJpc3MiOiJXZWJBcGlQcm9qZWN0IiwiYXVkIjoiV2ViQXBpUHJvamVjdCJ9.WPTtLpLtJFMy3ROw1mZRe5Hy_iYS9ZRxsXWuN879vk2lv7lHHQH9_fvVG1A7NywXElJr4gx2_j0IAKAYrrSicA
+}

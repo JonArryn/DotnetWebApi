@@ -1,12 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using WebApiProject.Models;
+using WebApiProject.Entities;
 
 namespace WebApiProject.Database;
 
 public class Db : DbContext
 {
     // public DbSet<Card> Cards { get; set; }
-    public DbSet<User> Users { get; set; }
+    public DbSet<UserEntity> Users { get; set; }
     
     private readonly ILogger<Db> _logger;
     
