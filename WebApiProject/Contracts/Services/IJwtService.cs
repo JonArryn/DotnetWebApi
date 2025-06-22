@@ -4,9 +4,9 @@ namespace WebApiProject.Contracts.Services;
 
 public interface IJwtService
 {
-    public string HashPassword(UserEntity userEntity, string password);
+    public string HashPassword(User user, string password);
 
-    public bool VerifyPassword(UserEntity userEntity, string password);
+    public bool VerifyPassword(User user, string password);
 
-    public string CreateToken(UserEntity userEntity);
+    public string CreateToken(User user);
 }

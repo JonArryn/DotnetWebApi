@@ -6,7 +6,9 @@ namespace WebApiProject.Database;
 public class Db : DbContext
 {
     // public DbSet<Card> Cards { get; set; }
-    public DbSet<UserEntity> Users { get; set; }
+    public DbSet<User> Users { get; set; }
+    public DbSet<Household> Households { get; set; }
+    public DbSet<HouseholdMember> HouseholdMembers { get; set; }
     
     private readonly ILogger<Db> _logger;
     

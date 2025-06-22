@@ -11,14 +11,14 @@ namespace WebApiProject.Repositories;
 
 public class AuthRepository(Db dbContext, IJwtService jwtService) : IAuthRepository
 {
-    public Task<UserEntity> LogInUser(UserRequest user)
+    public Task<User> LogInUser(UserRequest user)
     {
         throw new NotImplementedException();
     }
 
     //TODO: Determine if mapping needs to be done and instead of passing in the request we pass in a mapped model?
     //TODO: Need to sort out scalable mapping between requests, responses, and entities
-    public async Task<UserEntity> RegisterUser(UserEntity newUser)
+    public async Task<User> RegisterUser(User newUser)
     {
         
         await dbContext.Users.AddAsync(newUser);
@@ -27,13 +27,13 @@ public class AuthRepository(Db dbContext, IJwtService jwtService) : IAuthReposit
         return newUser;
     }
     
-    public async Task<UserEntity?> GetExistingUser(string userEmail)
+    public async Task<User?> GetExistingUser(string userEmail)
     {
         var user = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
         return user ?? null;
     }
 
-    public async Task<string> GenerateAndSaveRefreshTokenAsync(UserEntity user)
+    public async Task<string> GenerateAndSaveRefreshTokenAsync(User user)
     {
         var refreshToken = GenerateRefreshToken();
         user.RefreshToken = refreshToken;
@@ -55,7 +55,7 @@ public class AuthRepository(Db dbContext, IJwtService jwtService) : IAuthReposit
         };
     }
 
-    public async Task<UserEntity?> ValidateRefreshTokenAsync(int userId, string refreshToken)
+    public async Task<User?> ValidateRefreshTokenAsync(int userId, string refreshToken)
     {
         var user = await dbContext.Users.FindAsync(userId);
         if (user is null || user.RefreshToken != refreshToken || user.RefreshTokenExpiryTime <= DateTime.UtcNow)

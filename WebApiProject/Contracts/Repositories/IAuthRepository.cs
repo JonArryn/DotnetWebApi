@@ -7,11 +7,11 @@ namespace WebApiProject.Contracts.Repositories;
 public interface IAuthRepository
 {
 
-    public Task<UserEntity> RegisterUser(UserEntity newUser);
+    public Task<User> RegisterUser(User newUser);
 
-    public Task<UserEntity?> GetExistingUser(string userEmail);
+    public Task<User?> GetExistingUser(string userEmail);
 
-    public Task<string> GenerateAndSaveRefreshTokenAsync(UserEntity user);
+    public Task<string> GenerateAndSaveRefreshTokenAsync(User user);
 
     public Task<TokenResponse?> RefreshTokensAsync(RefreshTokenRequest request);
 

@@ -8,7 +8,7 @@ public class RegisterResponseMapping : Profile
 {
     public RegisterResponseMapping()
     {
-        CreateMap<UserEntity, RegisterResponse>();
+        CreateMap<User, RegisterResponse>();
     }
 }
 
@@ -16,6 +16,6 @@ public class LoginResponseMapping : Profile
 {
     public LoginResponseMapping()
     {
-        CreateMap<UserEntity, LoginResponse>();
+        CreateMap<User, LoginResponse>();
     }
 }

@@ -17,25 +17,25 @@ public  class JwtService : IJwtService
         _configuration = configuration;
     }
 
-    public  string HashPassword(UserEntity userEntity, string password)
+    public  string HashPassword(User user, string password)
     {
-        return new PasswordHasher<UserEntity>()
-            .HashPassword(userEntity, password);
+        return new PasswordHasher<User>()
+            .HashPassword(user, password);
     }
 
-    public bool VerifyPassword(UserEntity userEntity, string password)
+    public bool VerifyPassword(User user, string password)
     {
-        return new PasswordHasher<UserEntity>().VerifyHashedPassword(userEntity, userEntity.PasswordHash, password) ==
+        return new PasswordHasher<User>().VerifyHashedPassword(user, user.PasswordHash, password) ==
                PasswordVerificationResult.Success;
     }
     
-    public string CreateToken(UserEntity userEntity)
+    public string CreateToken(User user)
     {
         var claims = new List<Claim>
         {
-            new Claim(ClaimTypes.Name, userEntity.Email),
-            new Claim(ClaimTypes.NameIdentifier, userEntity.Id.ToString()),
-            new Claim(ClaimTypes.Role, userEntity.Roles)
+            new Claim(ClaimTypes.Name, user.Email),
+            new Claim(ClaimTypes.NameIdentifier, user.Id.ToString()),
+            new Claim(ClaimTypes.Role, user.Roles.ToString())
         };
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration.GetValue<string>("AppSettings:Token")));

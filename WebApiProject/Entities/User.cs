@@ -1,0 +1,23 @@
+using System.ComponentModel.DataAnnotations;
+
+namespace WebApiProject.Entities;
+
+public class User : BaseEntity
+{
+    [Required] [EmailAddress] [MaxLength(99)] public string Email { get; set; } = string.Empty;
+    [Required] [MaxLength(99)] public string PasswordHash { get; set; } = string.Empty;
+    [MaxLength(50)] public string FirstName { get; set; } = string.Empty;
+    [MaxLength(50)] public string LastName { get; set; } = string.Empty;
+    [Required] public UserRole Roles { get; set; } = UserRole.User;
+    public string? RefreshToken { get; set; } = null;
+    public DateTime? RefreshTokenExpiryTime { get; set; } = null;
+
+    public ICollection<HouseholdMember> HouseholdMemberships { get; set; } = new List<HouseholdMember>();
+
+}
+
+public enum UserRole
+{
+    Admin,
+    User
+}

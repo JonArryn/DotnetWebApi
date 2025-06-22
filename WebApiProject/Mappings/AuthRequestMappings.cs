@@ -9,7 +9,7 @@ public class RegisterRequestMapping : Profile
 {
     public RegisterRequestMapping()
     {
-        CreateMap<RegisterRequest, UserEntity>()
+        CreateMap<RegisterRequest, User>()
             .ForMember(dest => dest.PasswordHash, opt => opt.Ignore());
     }
 }

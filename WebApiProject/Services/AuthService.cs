@@ -18,7 +18,7 @@ public class AuthService(IAuthRepository authRepository, IJwtService jwtService,
             return null;
         }
 
-        var newUser = mapper.Map<UserEntity>(request);
+        var newUser = mapper.Map<User>(request);
         newUser.PasswordHash = jwtService.HashPassword(newUser, request.Password); 
         
         var registeredUser = await authRepository.RegisterUser(newUser);
