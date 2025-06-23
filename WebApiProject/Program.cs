@@ -46,6 +46,9 @@ public class Program
                 };
             });
         
+        // Misc
+        builder.Services.AddHttpContextAccessor();
+        
         // Mapper
         builder.Services.AddAutoMapper(typeof(Program).Assembly);
         // services, repos, dependencies
@@ -53,6 +56,8 @@ public class Program
         builder.Services.AddScoped<IAuthRepository, AuthRepository>();
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IJwtService, JwtService>();
+        builder.Services.AddScoped<ITenantProviderService, TenantProviderService>();
+        
         
         var app = builder.Build();
 
