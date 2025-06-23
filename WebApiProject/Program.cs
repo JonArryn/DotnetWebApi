@@ -1,12 +1,12 @@
 using System.Text;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Scalar.AspNetCore;
 using WebApiProject.Contracts.Repositories;
 using WebApiProject.Contracts.Services;
 using WebApiProject.Database;
-using WebApiProject.Mappings;
 using WebApiProject.Repositories;
 using WebApiProject.Services;
 
@@ -46,6 +46,13 @@ public class Program
                 };
             });
         
+        builder.Services.AddAuthorization(options =>
+        {
+            options.FallbackPolicy = new AuthorizationPolicyBuilder()
+                .RequireAuthenticatedUser()
+                .Build();
+        });
+        
         // Misc
         builder.Services.AddHttpContextAccessor();
         
@@ -74,6 +81,8 @@ public class Program
         }
 
         app.UseHttpsRedirection();
+
+        app.UseAuthentication();
 
         app.UseAuthorization();
 

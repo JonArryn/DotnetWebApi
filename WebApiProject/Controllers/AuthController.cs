@@ -13,6 +13,7 @@ namespace WebApiProject.Controllers
     public class AuthController(IAuthRepository authRepository,IAuthService authService, IJwtService jwtService) : ControllerBase
     {
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest request)
         {
             var newUser = await authService.RegisterUser(request);
@@ -25,6 +26,7 @@ namespace WebApiProject.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<ActionResult<TokenResponse>> Login(LoginRequest request)
         {
             var loginUser = await authService.LogInUser(request);
