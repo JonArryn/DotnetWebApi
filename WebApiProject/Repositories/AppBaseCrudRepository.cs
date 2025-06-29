@@ -4,21 +4,9 @@ using WebApiProject.Database;
 
 namespace WebApiProject.Repositories;
 
-public abstract class BaseRepository<TEntity, TId> : IBaseRepository<TEntity, TId>
-    where TEntity : class
+public class AppBaseCrudRepository<TEntity, TId> : AppBaseRepository<TEntity, TId>, IAppBaseCrudRepository<TEntity, TId> where TEntity : class
 {
-    
-    protected readonly Db Context;
-    protected readonly ILogger<BaseRepository<TEntity, TId>> Logger;
-    protected readonly DbSet<TEntity> DbSet;
-
-    protected BaseRepository(Db context, ILogger<BaseRepository<TEntity, TId>> logger)
-    {
-        Context = context;
-        Logger = logger;
-        DbSet = context.Set<TEntity>();
-    }
-    
+    public AppBaseCrudRepository(Db context, ILogger<TEntity> logger) : base(context, logger){}
     
     public async Task<IEnumerable<TEntity>> GetAllAsync()
     {

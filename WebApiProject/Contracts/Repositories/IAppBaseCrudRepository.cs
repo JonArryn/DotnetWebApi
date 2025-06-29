@@ -1,6 +1,6 @@
 namespace WebApiProject.Contracts.Repositories;
 
-public interface IBaseRepository<TEntity, TId> where TEntity : class
+public interface IAppBaseCrudRepository<TEntity, TId> : IAppBaseRepository<TEntity, TId> where TEntity : class
 {
     Task<IEnumerable<TEntity>> GetAllAsync();
     Task<TEntity?> GetByIdAsync(TId id);

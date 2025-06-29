@@ -1,5 +1,5 @@
-using WebApiProject.Models.Requests;
-using WebApiProject.Models.Responses;
+using WebApiProject.DataTransfers.Requests;
+using WebApiProject.DataTransfers.Responses;
 
 namespace WebApiProject.Contracts.Services;
 
