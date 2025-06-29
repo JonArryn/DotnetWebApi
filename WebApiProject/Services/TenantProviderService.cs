@@ -1,4 +1,4 @@
-using WebApiProject.Contracts.Repositories;
+
 using WebApiProject.Contracts.Services;
 
 namespace WebApiProject.Services;
@@ -30,14 +30,14 @@ public class TenantProviderService : ITenantProviderService
         
         if (!tenantIdHeader.HasValue || string.IsNullOrEmpty(tenantIdHeader.Value.ToString()))
         {
-            throw new ApplicationException("Tenant ID is not present");
+            throw new BadHttpRequestException("Tenant Id is missing");
         }
 
         Guid tenantId;
         
         if (!Guid.TryParse(tenantIdHeader.Value.ToString(), out tenantId))
         {
-            throw new ApplicationException("Tenant ID is invalid");
+            throw new BadHttpRequestException("Tenant ID is invalid");
         }
         
         return tenantId;

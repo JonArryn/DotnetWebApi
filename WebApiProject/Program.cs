@@ -64,6 +64,8 @@ public class Program
         builder.Services.AddScoped<IAuthService, AuthService>();
         builder.Services.AddScoped<IJwtService, JwtService>();
         builder.Services.AddScoped<ITenantProviderService, TenantProviderService>();
+        builder.Services.AddScoped<IHouseholdRepository, HouseholdRepository>();
+        builder.Services.AddScoped<IHouseholdService, HouseholdService>();
         
         
         var app = builder.Build();
