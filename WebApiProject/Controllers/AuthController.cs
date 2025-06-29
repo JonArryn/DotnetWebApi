@@ -2,8 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using WebApiProject.Contracts.Repositories;
 using WebApiProject.Contracts.Services;
-using WebApiProject.Models.Requests;
-using WebApiProject.Models.Responses;
+using WebApiProject.DataTransfers.Requests;
+using WebApiProject.DataTransfers.Responses;
 
 
 namespace WebApiProject.Controllers
@@ -50,8 +50,7 @@ namespace WebApiProject.Controllers
 
             return Ok(result);
         }
-
-        [Authorize]
+        
         [HttpGet("testAuth")]
         public IActionResult AuthenticatedOnlyEndpoint()
         {

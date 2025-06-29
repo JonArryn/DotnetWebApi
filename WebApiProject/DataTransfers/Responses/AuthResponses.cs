@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApiProject.Models.Responses;
+namespace WebApiProject.DataTransfers.Responses;
 
 public class RegisterResponse
 {

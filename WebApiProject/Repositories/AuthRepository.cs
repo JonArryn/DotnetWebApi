@@ -3,15 +3,15 @@ using Microsoft.EntityFrameworkCore;
 using WebApiProject.Contracts.Repositories;
 using WebApiProject.Contracts.Services;
 using WebApiProject.Database;
+using WebApiProject.DataTransfers.Requests;
+using WebApiProject.DataTransfers.Responses;
 using WebApiProject.Entities;
-using WebApiProject.Models.Requests;
-using WebApiProject.Models.Responses;
 
 namespace WebApiProject.Repositories;
 
 public class AuthRepository(Db dbContext, IJwtService jwtService) : IAuthRepository
 {
-    public Task<User> LogInUser(UserRequest user)
+    public Task<User> LogInUser(UserRequests user)
     {
         throw new NotImplementedException();
     }

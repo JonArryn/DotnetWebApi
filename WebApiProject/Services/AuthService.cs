@@ -1,9 +1,9 @@
 using AutoMapper;
 using WebApiProject.Contracts.Repositories;
 using WebApiProject.Contracts.Services;
+using WebApiProject.DataTransfers.Requests;
+using WebApiProject.DataTransfers.Responses;
 using WebApiProject.Entities;
-using WebApiProject.Models.Requests;
-using WebApiProject.Models.Responses;
 
 namespace WebApiProject.Services;
 

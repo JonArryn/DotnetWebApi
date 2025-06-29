@@ -1,6 +1,6 @@
 using AutoMapper;
+using WebApiProject.DataTransfers.Responses;
 using WebApiProject.Entities;
-using WebApiProject.Models.Responses;
 
 namespace WebApiProject.Mappings;
 

@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApiProject.Models.Requests;
+namespace WebApiProject.DataTransfers.Requests;
 
 public class RegisterRequest
 {
