@@ -2,8 +2,10 @@ using WebApiProject.Entities;
 
 namespace WebApiProject.Contracts.Repositories;
 
-public interface IUserRepository : IBaseRepository<User, Guid>
+public interface IUserRepository : IAppBaseRepository<User, Guid>
 {
     Task<User?> GetUserByEmailAsync(string email);
+
+    public Task<User?> GetUserByIdAsync(Guid userId);
 
 }

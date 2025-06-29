@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApiProject.Models.Requests;
+namespace WebApiProject.DataTransfers.Requests;
 
-public class UserRequest
+public class UserRequests
 {
 
     [Required] [EmailAddress] public string Email { get; set; } = string.Empty;

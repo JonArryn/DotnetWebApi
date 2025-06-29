@@ -1,8 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace WebApiProject.Models.Responses;
+namespace WebApiProject.DataTransfers.Responses;
 
-public class UserResponse
+public class GetUserResponse
 {
     public Guid Id;
     [EmailAddress] public string Email { get; set; } = string.Empty;

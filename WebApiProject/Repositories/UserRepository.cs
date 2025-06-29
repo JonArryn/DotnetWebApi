@@ -6,9 +6,9 @@ using WebApiProject.Entities;
 
 namespace WebApiProject.Repositories;
 
-public class UserRepository : BaseRepository<User, Guid>, IUserRepository
+public class UserRepository : AppBaseRepository<User, Guid>, IUserRepository
 {
-    public UserRepository(Db context, ILogger<BaseRepository<User, Guid>> logger)
+    public UserRepository(Db context, ILogger<User> logger)
         : base(context, logger)
     {
     }
@@ -18,6 +18,12 @@ public class UserRepository : BaseRepository<User, Guid>, IUserRepository
     {
         Logger.LogInformation("Getting user with email: {Email}", email);
         return await DbSet.FirstOrDefaultAsync(u => u.Email == email);
+    }
+
+    public async Task<User?> GetUserByIdAsync(Guid userId)
+    {
+        Logger.LogInformation("Getting user with id: {Id}", userId);
+        return await DbSet.FirstOrDefaultAsync(u => u.Id == userId);
     }
 
    
