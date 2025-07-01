@@ -15,7 +15,7 @@ public class ErrorController : ControllerBase
         var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>()!;
         var exception = exceptionHandlerFeature.Error;
 
-        if (exception is AppException appException)
+        if (exception is HttpResponseException appException)
             return Problem(
                 title: exceptionHandlerFeature.Error.Message,
                 detail: exceptionHandlerFeature.Error.StackTrace,
@@ -42,7 +42,7 @@ public class ErrorController : ControllerBase
         if (exception == null)
             return Problem();
 
-        if (exception is AppException appException)
+        if (exception is HttpResponseException appException)
             return Problem(
                 title: "An error occurred",
                 detail: appException.Message,

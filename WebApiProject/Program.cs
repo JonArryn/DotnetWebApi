@@ -7,6 +7,7 @@ using Scalar.AspNetCore;
 using WebApiProject.Contracts.Repositories;
 using WebApiProject.Contracts.Services;
 using WebApiProject.Database;
+using WebApiProject.Filters;
 using WebApiProject.Repositories;
 using WebApiProject.Services;
 
@@ -17,45 +18,47 @@ public class Program
     public static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
-        
+
         builder.Logging.ClearProviders();
         builder.Logging.AddConsole();
         builder.Logging.AddDebug();
 
+
         // Add services to the container.
 
-        builder.Services.AddControllers();
+        builder.Services.AddControllers(options => { options.Filters.Add<HttpResponseExceptionFilter>(); });
         // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
         builder.Services.AddOpenApi();
-        
+
         builder.Services.AddDbContext<Db>(options =>
             options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
         builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
             .AddJwtBearer(options =>
             {
-                options.TokenValidationParameters = new TokenValidationParameters()
+                options.TokenValidationParameters = new TokenValidationParameters
                 {
                     ValidateIssuer = true,
                     ValidIssuer = builder.Configuration["AppSettings:Issuer"],
                     ValidateAudience = true,
                     ValidAudience = builder.Configuration["AppSettings:Audience"],
                     ValidateLifetime = true,
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]!)),
+                    IssuerSigningKey =
+                        new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["AppSettings:Token"]!)),
                     ValidateIssuerSigningKey = true
                 };
             });
-        
+
         builder.Services.AddAuthorization(options =>
         {
             options.FallbackPolicy = new AuthorizationPolicyBuilder()
                 .RequireAuthenticatedUser()
                 .Build();
         });
-        
+
         // Misc
         builder.Services.AddHttpContextAccessor();
-        
+
         // Mapper
         builder.Services.AddAutoMapper(typeof(Program).Assembly);
         // services, repos, dependencies
@@ -66,8 +69,8 @@ public class Program
         builder.Services.AddScoped<ITenantProviderService, TenantProviderService>();
         builder.Services.AddScoped<IHouseholdRepository, HouseholdRepository>();
         builder.Services.AddScoped<IHouseholdService, HouseholdService>();
-        
-        
+
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -77,10 +80,8 @@ public class Program
             app.MapScalarApiReference();
             app.UseExceptionHandler("/error-development");
         }
-        if (!app.Environment.IsDevelopment())
-        {
-            app.UseExceptionHandler("/error");
-        }
+
+        if (!app.Environment.IsDevelopment()) app.UseExceptionHandler("/error");
 
         app.UseHttpsRedirection();
 

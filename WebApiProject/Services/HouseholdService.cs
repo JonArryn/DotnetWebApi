@@ -22,9 +22,9 @@ public class HouseholdService : AppBaseService<Household, IHouseholdRepository>,
     {
         var owner = await _userRepository.GetUserByIdAsync(request.OwnerId);
         if (owner is null)
-            // TODO implement custom exception type and implement exception handling middleware
-            throw new EntityNotFoundException($"User not found by the ID {request.OwnerId} when creating household",
-                404);
+
+            throw new EntityNotFoundException(
+                $"User not found by the ID {request.OwnerId} when creating household");
 
         request.OwnerId = owner.Id;
 
