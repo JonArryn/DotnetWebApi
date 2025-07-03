@@ -5,63 +5,52 @@ using WebApiProject.Contracts.Services;
 using WebApiProject.DataTransfers.Requests;
 using WebApiProject.DataTransfers.Responses;
 
+namespace WebApiProject.Controllers;
 
-namespace WebApiProject.Controllers
+[Route("api/[controller]")]
+[ApiController]
+public class AuthController(IAuthRepository authRepository, IAuthService authService, IJwtService jwtService) : ControllerBase
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    public class AuthController(IAuthRepository authRepository,IAuthService authService, IJwtService jwtService) : ControllerBase
+    [HttpPost("register")]
+    [AllowAnonymous]
+    public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest request)
     {
-        [HttpPost("register")]
-        [AllowAnonymous]
-        public async Task<ActionResult<RegisterResponse>> Register(RegisterRequest request)
+        var newUser = await authService.RegisterUser(request);
+
+        return Ok(newUser);
+    }
+
+    [HttpPost("login")]
+    [AllowAnonymous]
+    public async Task<ActionResult<TokenResponse>> Login(LoginRequest request)
+    {
+        var loginUser = await authService.LogInUser(request);
+
+        return Ok(loginUser);
+    }
+
+    [HttpPost("refreshToken")]
+    public async Task<ActionResult<TokenResponse>> RefreshToken(RefreshTokenRequest request)
+    {
+        var result = await authService.RefreshTokens(request);
+        if (result is null)
         {
-            var newUser = await authService.RegisterUser(request);
-            if (newUser == null)
-            {
-                return BadRequest("Could Not Register User");
-            }
-            
-            return Ok(newUser);
+            return Unauthorized("Invalid token");
         }
 
-        [HttpPost("login")]
-        [AllowAnonymous]
-        public async Task<ActionResult<TokenResponse>> Login(LoginRequest request)
-        {
-            var loginUser = await authService.LogInUser(request);
-            
-            if (loginUser == null)
-            {
-                return BadRequest("Could not log in");
-            }
+        return Ok(result);
+    }
 
-            return Ok(loginUser);
-        }
+    [HttpGet("testAuth")]
+    public IActionResult AuthenticatedOnlyEndpoint()
+    {
+        return Ok("You are authenticated");
+    }
 
-        [HttpPost("refreshToken")]
-        public async Task<ActionResult<TokenResponse>> RefreshToken(RefreshTokenRequest request)
-        {
-            var result = await authService.RefreshTokens(request);
-            if (result is null)
-            {
-                return Unauthorized("Invalid token");
-            }
-
-            return Ok(result);
-        }
-        
-        [HttpGet("testAuth")]
-        public IActionResult AuthenticatedOnlyEndpoint()
-        {
-            return Ok("You are authenticated");
-        }
-        
-        [Authorize(Roles = "Admin")]
-        [HttpGet("testAuthZ")]
-        public IActionResult AdminOnlyEndpoint()
-        {
-            return Ok("You are authorized as an admin");
-        }
+    [Authorize(Roles = "Admin")]
+    [HttpGet("testAuthZ")]
+    public IActionResult AdminOnlyEndpoint()
+    {
+        return Ok("You are authorized as an admin");
     }
 }
