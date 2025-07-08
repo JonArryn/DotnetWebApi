@@ -70,18 +70,19 @@ public class Program
         builder.Services.AddScoped<IHouseholdRepository, HouseholdRepository>();
         builder.Services.AddScoped<IHouseholdService, HouseholdService>();
 
-
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            app.UseExceptionHandler("/error-development");
             app.MapOpenApi();
             app.MapScalarApiReference();
-            app.UseExceptionHandler("/error-development");
         }
-
-        if (!app.Environment.IsDevelopment()) app.UseExceptionHandler("/error");
+        else
+        {
+            app.UseExceptionHandler("/error");
+        }
 
         app.UseHttpsRedirection();
 

@@ -27,6 +27,11 @@ public class HouseholdService : AppBaseService<Household, IHouseholdRepository>,
                 $"User not found by the ID {request.OwnerId} when creating household");
 
         request.OwnerId = owner.Id;
+        
+        if (await Repository.ExistsWithNameForOwnerAsync(request.Name, owner.Id))
+            throw new DuplicateEntityException(
+                $"Household with name '{request.Name}' already exists for this owner",
+                "B0005");
 
         var newHousehold = Mapper.Map<Household>(request);
         newHousehold.Owner = owner;

@@ -37,7 +37,7 @@ public class AuthService(IAuthRepository authRepository, IJwtService jwtService,
         var passwordVerified = jwtService.VerifyPassword(loginUser, request.Password);
         if (!passwordVerified)
         {
-            throw new CouldNotAuthenticateException("Could not log in.");
+            throw new CouldNotAuthenticateException(errorCode: AuthErrorCodes.INVALID_CREDENTIALS);
         }
         var response = mapper.Map<LoginResponse>(loginUser);
 

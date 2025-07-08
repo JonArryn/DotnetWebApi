@@ -34,3 +34,11 @@ public class CouldNotAuthenticateException : HttpResponseException
     {
     }
 }
+
+public class DuplicateEntityException : HttpResponseException
+{
+    public DuplicateEntityException(string? message = "Entity already exists", string? errorCode = BusinessErrorCodes.DUPLICATE_ENTITY)
+        : base(StatusCodes.Status409Conflict, ApiErrorResponse.Conflict(message, errorCode))
+    {
+    }
+}

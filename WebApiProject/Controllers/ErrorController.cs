@@ -8,6 +8,13 @@ namespace WebApiProject.Controllers;
 [ApiExplorerSettings(IgnoreApi = true)]
 public class ErrorController : ControllerBase
 {
+    private readonly ILogger<ErrorController> _logger;
+
+    public ErrorController(ILogger<ErrorController> logger)
+    {
+        _logger = logger;
+    }
+
     [Route("error-development")]
     public IActionResult HandleErrorDevelopment([FromServices] IHostEnvironment hostEnvironment)
     {
@@ -39,6 +46,11 @@ public class ErrorController : ControllerBase
         var exceptionHandlerFeature = HttpContext.Features.Get<IExceptionHandlerFeature>();
         var exception = exceptionHandlerFeature?.Error;
 
+        _logger.LogError(exceptionHandlerFeature?.Error,
+            "An error occurred while processing request {RequestPath}. Error details: {ErrorMessage}",
+            HttpContext.Request.Path,
+            exceptionHandlerFeature?.Error?.Message);
+
         if (exception == null)
             return Problem();
 
@@ -53,5 +65,6 @@ public class ErrorController : ControllerBase
             title: "An unexpected error occurred",
             statusCode: StatusCodes.Status500InternalServerError
         );
+
     }
 }

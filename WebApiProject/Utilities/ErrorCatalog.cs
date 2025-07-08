@@ -56,6 +56,7 @@ public class ErrorCatalog
         public const string NOT_HOUSEHOLD_MEMBER = "B0003";
         public const string GENERIC_NOT_FOUND = "B0001";
         public const string GENERIC_BAD_REQUEST = "B0004";
+        public const string DUPLICATE_ENTITY = "B0005";
     }
 
     public static class ValidationErrorCodes

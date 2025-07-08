@@ -35,4 +35,14 @@ public class ApiErrorResponse
             Status = ResponseStatus.Fail
         };
     }
+
+    public static ApiErrorResponse Conflict(string message, string? errorCode = "B0005")
+    {
+        return new ApiErrorResponse
+        {
+            Message = message,
+            ErrorCode = errorCode,
+            Status = ResponseStatus.Fail
+        };
+    }
 }
